@@ -1,4 +1,6 @@
-﻿using ClinicMaster.Core;
+﻿using AutoMapper;
+using ClinicMaster.Core;
+using ClinicMaster.Core.Dto;
 using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +10,12 @@ namespace ClinicMaster.Web.Controllers
     public class PatientsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public PatientsController(IUnitOfWork unitOfWork)
+        public PatientsController(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -125,5 +129,34 @@ namespace ClinicMaster.Web.Controllers
             return RedirectToAction("Index", "Patients")
 ;
         }
+
+
+        #region Api Calls
+
+        [HttpGet]
+        public IActionResult GetPatients() 
+        {
+
+            var patientsQuery = _unitOfWork.Patients.GetPatients();
+
+
+            var patientDto = patientsQuery.ToList()
+                                          .Select(_mapper.Map<Patient, PatientDto>);
+            return Json(patientDto);
+        }
+
+
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var patient = _unitOfWork.Patients.GetPatient(id);
+            _unitOfWork.Patients.Remove(patient);
+            _unitOfWork.Complete();
+            return Json(new { success = true, message = "Delete Product Successful" });
+        }
+
+
+        #endregion
     }
 }

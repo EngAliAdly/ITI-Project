@@ -91,25 +91,5 @@ namespace ClinicMaster.Web.Controllers
 
         #endregion
 
-        public IActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
     }
 }

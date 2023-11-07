@@ -1,7 +1,7 @@
 ﻿using ClinicMaster.Core.ViewModel;
 using ClinicMaster.Core;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ClinicMaster.Web.Controllers
 {
@@ -34,7 +34,7 @@ namespace ClinicMaster.Web.Controllers
 
         public IActionResult DoctorProfile()
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var viewModel = new DoctorDetailViewModel
             {
                 Doctor = _unitOfWork.Doctors.GetProfile(userId),
