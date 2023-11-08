@@ -188,6 +188,65 @@ namespace ClinicMaster.Web.Controllers
 
         #endregion
 
+        #region list users
+
+        public IActionResult Index()
+        {
+            var usersWithRoles = _unitOfWork.Users.GetUsers();
+            return View(usersWithRoles);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var user = _unitOfWork.Users.GetUser(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            var viewModel = new UserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                IsActive = user.IsActive,
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(UserViewModel editUser)
+        {
+            if (ModelState.IsValid)
+
+            {
+                var user = _unitOfWork.Users.GetUser(editUser.Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                //user.UserName = editUser.Email;
+                // user.Id = editUser.Id;
+                user.Email = editUser.Email;
+                user.IsActive = editUser.IsActive;
+                _unitOfWork.Complete();
+
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Something failed.");
+            return View(editUser);
+        }
+
+        #endregion
 
         #region Helper
 
