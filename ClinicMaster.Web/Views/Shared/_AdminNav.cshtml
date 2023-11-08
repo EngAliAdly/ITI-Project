@@ -1,0 +1,26 @@
+﻿<ul class="nav side-menu">
+    <li>
+        <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i> Home <span></span></a>
+    </li>
+    <li>
+        <a asp-controller="Patients" asp-action="Index"><i class="fa fa-edit"></i> Patient <span></span></a>
+    </li>
+    <li>
+        <a asp-controller="Appointments" asp-action="Index"><i class="fa fa-edit"></i> Appointment <span></span></a>
+    </li>
+    <li>
+        <a asp-controller="Doctors" asp-action="Index"><i class="fa fa-user-md"></i> Doctors <span></span></a>
+    </li>
+    <li>
+        <a asp-controller="Account" asp-action="Index"><i class="fa fa-user"></i>Users <span></span></a>
+    </li>
+    <li>
+        <a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+            <li><a asp-controller="Reports" asp-action="DaillyAppointments">Daily Appointments</a></li>
+            <li><a asp-controller="Reports" asp-action="Appointments">Appointments</a></li>
+            <li><a asp-controller="Reports" asp-action="Attandences">Attendance</a></li>
+        </ul>
+    </li>
+
+</ul>
