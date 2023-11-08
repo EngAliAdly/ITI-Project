@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
-    <title>| Smile Clinic |</title>
+    <title>Smile Clinic</title>
     <!-- Bootstrap -->
     <link href="~/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -17,7 +17,9 @@
     <link href="~/assets/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href="~/assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    @await RenderSectionAsync("Style", required: false)
+    <!-- iCheck -->
+    <link href="~/assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
     <!-- Custom Theme Style -->
     <link href="~/assets/build/css/custom.min.css" rel="stylesheet">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -26,7 +28,7 @@
 
 </head>
 
-<body class="nav-md">
+<body class="nav-md footer_fixed">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
@@ -36,18 +38,18 @@
                     </div>
 
                     <div class="clearfix"></div>
-
-
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="~/assets/production/images/img.jpg" alt="..." class="img-circle profile_img" style="height:55px,width:55px">
-                        </div>
-                        <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-
-                        </div>
+                        @if (User.IsInRole(RoleName.AdministratorRoleName))
+                        {
+                            <div class="profile_pic">
+                                <img src="~/assets/production/images/user.png" alt="..." class="img-circle profile_img" style="height:55px,width:55px">
+                            </div>
+                            <div class="profile_info">
+                                <span>Welcome,</span>
+                                <h2>@User.Identity.Name</h2>
+                            </div>
+                        }
                     </div>
                     <!-- /menu profile quick info -->
 
@@ -56,47 +58,30 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
-
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a><i class="fa fa-home"></i> Home <span></span></a>
-
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-edit"></i> Patient <span></span></a>
-
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-edit"></i> Appointment <span></span></a>
-
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-user-md"></i> Doctors <span></span></a>
-
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-user"></i>Users <span></span></a>
-
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="dailyAppointments.html">Daily Appointments</a></li>
-                                        <li><a href="appointments.html">Appointments</a></li>
-                                        <li><a href="attendance.html">Attendance</a></li>
-
-                                    </ul>
-                                </li>
-
-                            </ul>
+                            @if (User.IsInRole(RoleName.AdministratorRoleName))
+                            {
+                                <partial name="_AdminNav" />
+                            }
+                            @if (User.IsInRole(RoleName.DoctorRoleName))
+                            {
+                                <partial name="_DoctorNav" />
+                            }
                         </div>
 
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <a data-toggle="tooltip">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a asp-controller="Account" asp-action="LogOff" data-toggle="tooltip" data-placement="top" title="Logout">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -110,27 +95,17 @@
                     <div class="nav toggle">
                         <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                     </div>
-                    <nav class="nav navbar-nav">
-                        <ul class=" navbar-right">
-                            <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="~/assets/production/images/img.jpg" alt="">John Doe
-                                </a>
-                                <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </nav>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
             <!-- /top navigation -->
-            @RenderBody()
+            <div class="right_col">
+                @RenderBody()
+            </div>
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Developed by Team5
+                    <h6>Developed by Team5</h6>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -154,6 +129,8 @@
     <script src="~/assets/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
     <!-- bootstrap-progressbar -->
     <script src="~/assets/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/assets/vendors/iCheck/icheck.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <!-- Custom Theme Scripts -->
     <script src="~/assets/build/js/custom.min.js"></script>
