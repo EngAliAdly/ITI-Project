@@ -1,8 +1,10 @@
 ﻿using ClinicMaster.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize()]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -33,7 +33,7 @@ namespace ClinicMaster.Web.Controllers
         //
         // GET: /Account/Login
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -43,7 +43,7 @@ namespace ClinicMaster.Web.Controllers
         //
         // POST: /Account/Login
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -52,8 +52,7 @@ namespace ClinicMaster.Web.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to lockoutOnFailure: true
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,
-                lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,false);
             if (result.Succeeded)
             {
                 return RedirectToLocal(returnUrl);
@@ -93,6 +92,14 @@ namespace ClinicMaster.Web.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Ensure that the role exists
+                    var roleExists = await _roleManager.RoleExistsAsync(RoleName.AdministratorRoleName);
+                    if (!roleExists)
+                    {
+                        var role = new IdentityRole(RoleName.AdministratorRoleName);
+                        await _roleManager.CreateAsync(role);
+                    }
+
                     await _userManager.AddToRoleAsync(user, RoleName.AdministratorRoleName);
                     var claim = new Claim(ClaimTypes.GivenName, model.Name);
                     await _userManager.AddClaimAsync(user, claim);
@@ -171,6 +178,16 @@ namespace ClinicMaster.Web.Controllers
 
 
         #endregion
+
+        #region Sign Out
+        public async Task<IActionResult> LogOFF()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+
+        #endregion
+
 
         #region Helper
 
