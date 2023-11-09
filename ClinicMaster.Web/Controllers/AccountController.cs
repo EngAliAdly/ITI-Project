@@ -4,6 +4,7 @@ using ClinicMaster.Core.Models.Extend;
 using ClinicMaster.Core.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using IdentityResult = Microsoft.AspNetCore.Identity.IdentityResult;
 
@@ -128,6 +129,8 @@ namespace ClinicMaster.Web.Controllers
                 Specializations = _unitOfWork.Specializations.GetSpecializations()
                 // Doctors = _doctorRepository.GetDectors()
             };
+
+            ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name");
             return View("DoctorForm", viewModel);
         }
 
@@ -135,10 +138,12 @@ namespace ClinicMaster.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterDoctor(DoctorFormViewModel viewModel)
         {
+            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser()
                 {
+                    Name = viewModel.Name,
                     UserName = viewModel.RegisterViewModel.Email,
                     Email = viewModel.RegisterViewModel.Email,
                     IsActive = true
@@ -147,9 +152,15 @@ namespace ClinicMaster.Web.Controllers
 
                 if (result.Succeeded)
                 {
-
+                    // Ensure that the role exists
+                    var roleExists = await _roleManager.RoleExistsAsync(RoleName.DoctorRoleName);
+                    if (!roleExists)
+                    {
+                        var role = new IdentityRole(RoleName.DoctorRoleName);
+                        await _roleManager.CreateAsync(role);
+                    }
+                    
                     await _userManager.AddToRoleAsync(user, RoleName.DoctorRoleName);
-
 
                     Doctor doctor = new Doctor()
                     {

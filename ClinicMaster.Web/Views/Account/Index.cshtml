@@ -32,15 +32,15 @@
                             <td>
                                 @if (item.IsActive == true)
                                 {
-                                    <a class="badge badge-success"><h6 class="text text-white">Active</h6></a>
+                                    <h2> <span class="badge badge-success">Active</span></h2>
                                 }
                                 else
                                 {
-                                    <a class="badge badge-danger"><h6 class="text text-white">Locked</h6></a>
+                                    <h2> <span class="badge badge-danger">Locked</span></h2>
                                 }
                             </td>
                             <td>
-                                <a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-pencil-square"></i> Update</a>
+                                <a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm"><i class="fa fa-pencil-square"></i> Update</a>
                             </td>
                         </tr>
                     }
