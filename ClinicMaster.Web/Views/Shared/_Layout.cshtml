@@ -40,7 +40,7 @@
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
-                        @if (User.IsInRole(RoleName.AdministratorRoleName))
+                        @if (User.IsInRole(RoleName.AdministratorRoleName) || User.IsInRole(RoleName.DoctorRoleName))
                         {
                             <div class="profile_pic">
                                 <img src="~/assets/production/images/user.png" alt="..." class="img-circle profile_img" style="height:55px,width:55px">

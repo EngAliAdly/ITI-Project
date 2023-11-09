@@ -2,6 +2,7 @@
 using ClinicMaster.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicMaster.Web.Controllers
 {
@@ -44,6 +45,7 @@ namespace ClinicMaster.Web.Controllers
         }
         public IActionResult Edit(int id)
         {
+            ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name");
             var doctor = _unitOfWork.Doctors.GetDoctor(id);
             if (doctor == null) return NotFound();
             var viewModel = new DoctorFormViewModel()
@@ -66,6 +68,7 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name", viewModel.Specialization);
                 viewModel.Specializations = _unitOfWork.Specializations.GetSpecializations();
                 return View(viewModel);
             }
