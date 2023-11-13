@@ -22,7 +22,15 @@
                             <th>Specialization </th>
                             <th>Status</th>
                             <th>Account Status</th>
-                            <th><a asp-controller="Account" asp-action="RegisterDoctor" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Add</a></th>
+                            @if (User.IsInRole(RoleName.AdministratorRoleName))
+                            {
+                                <th><a asp-controller="Account" asp-action="RegisterDoctor" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Add</a></th>
+                            }
+                            else
+                            {
+                                <th></th>
+                            }
+
                         </tr>
                     </thead>
                     @foreach (var item in Model)

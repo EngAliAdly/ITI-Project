@@ -1,6 +1,7 @@
 ﻿using ClinicMaster.Core;
 using ClinicMaster.Core.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 
 namespace ClinicMaster.Web.Controllers
 {
@@ -17,12 +18,12 @@ namespace ClinicMaster.Web.Controllers
             return View();
         }
         //======================Attandance ========================//
-        public ActionResult Attandences()
+        public ActionResult Attandences(string token)
         {
-            var attandences = _unitOfWork.Attandences.GetAttandences();
+            var attandences = _unitOfWork.Attandences.GetPatientAttandences(token);
             return View(attandences);
         }
-        public ActionResult PatientAttandence(string token = null)
+        public ActionResult PatientAttandence(string token)
         {
             var patientAttandences = _unitOfWork.Attandences.GetPatientAttandences(token);
             return View("_AttandencePartial", patientAttandences);

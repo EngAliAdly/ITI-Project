@@ -1,17 +1,17 @@
-﻿@model DoctorFormViewModel
+﻿@model AssistantFormViewModel
 @{
-    ViewData["Title"] = "DoctorForm";
+    ViewData["Title"] = "AssistantForm";
 }
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h3>Add Doctor</h3>
+                <h3>Add Assistant</h3>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form asp-controller="Account" asp-action="RegisterDoctor" method="post" class="form-horizontal form-label-left">
+                <form asp-controller="Account" asp-action="RegisterAssistant" method="post" class="form-horizontal form-label-left">
                     <input type="hidden" asp-for="Id" />
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="field item form-group">
@@ -27,16 +27,6 @@
                         <div class="col-md-6 col-sm-6">
                             <input asp-for="Phone" id="phoneInput" class="form-control" maxlength="11" />
                             <span asp-validation-for="Phone" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="field item form-group">
-                        <label asp-for="Specialization" class="col-form-label col-md-3 col-sm-3  label-align">Specializations</label>
-                        <div class="col-md-6 col-sm-6">
-                            <select asp-for="Specialization" asp-items="(SelectList)ViewBag.Specializations" class="select2_single form-control" tabindex="-1">
-                                <option value=""></option>
-                            </select>
-                            <span asp-validation-for="Specialization" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -112,3 +102,4 @@
         });
     </script>
 }
+

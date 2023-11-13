@@ -11,9 +11,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form asp-controller="Account" asp-action="Edit"  method="post" class="form-horizontal form-label-left">
+                <form asp-controller="Account" asp-action="Edit" method="post" class="form-horizontal form-label-left">
                     <input type="hidden" asp-for="Id" />
-
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="field item form-group">
                         <label asp-for="Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">

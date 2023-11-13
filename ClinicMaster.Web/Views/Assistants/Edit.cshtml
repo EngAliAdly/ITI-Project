@@ -1,19 +1,19 @@
-﻿@model DoctorFormViewModel
+﻿@model AssistantFormViewModel
 @{
-    ViewData["Title"] = "DoctorForm";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h3>Add Doctor</h3>
+                <h3>Edit Assistant</h3>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form asp-controller="Account" asp-action="RegisterDoctor" method="post" class="form-horizontal form-label-left">
+                <form asp-controller="Assistants" asp-action="Edit" method="post" class="form-horizontal form-label-left">
                     <input type="hidden" asp-for="Id" />
-                    <div asp-validation-summary="All" class="text-danger"></div>
+
                     <div class="field item form-group">
                         <label asp-for="Name" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
@@ -31,53 +31,17 @@
                     </div>
 
                     <div class="field item form-group">
-                        <label asp-for="Specialization" class="col-form-label col-md-3 col-sm-3  label-align">Specializations</label>
-                        <div class="col-md-6 col-sm-6">
-                            <select asp-for="Specialization" asp-items="(SelectList)ViewBag.Specializations" class="select2_single form-control" tabindex="-1">
-                                <option value=""></option>
-                            </select>
-                            <span asp-validation-for="Specialization" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="field item form-group">
                         <label asp-for="Address" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
                             <input asp-for="Address" class="form-control" />
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
                     </div>
-
-                    <div class="field item form-group">
-                        <label asp-for="RegisterEmpViewModel.Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
-                        <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterEmpViewModel.Email" class="form-control" />
-                            <span asp-validation-for="RegisterEmpViewModel.Email" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="field item form-group">
-                        <label asp-for="RegisterEmpViewModel.Password" class="col-form-label col-md-3 col-sm-3  label-align"></label>
-                        <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterEmpViewModel.Password" class="form-control" />
-                            <span asp-validation-for="RegisterEmpViewModel.Password" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="field item form-group">
-                        <label asp-for="RegisterEmpViewModel.ConfirmPassword" class="col-form-label col-md-3 col-sm-3  label-align"></label>
-                        <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterEmpViewModel.ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="RegisterEmpViewModel.ConfirmPassword" class="text-danger"></span>
-                        </div>
-                    </div>
-
-
-
                     <div class="ln_solid">
                         <br />
                         <div class="form-group">
                             <div class="col-md-6 offset-md-3">
+                                <a asp-controller="Assistants" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-dark">Back</a>
                                 <button type='submit' class="btn btn-outline-info">Save</button>
                             </div>
                         </div>
@@ -112,3 +76,4 @@
         });
     </script>
 }
+

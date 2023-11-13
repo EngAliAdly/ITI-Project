@@ -30,14 +30,18 @@ namespace ClinicMaster.Infrastructure.Repositories
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public IEnumerable<Attendance> GetPatientAttandences(string searchTerm = null)
+        public IEnumerable<Attendance> GetPatientAttandences(string? searchTerm)
         {
-            var attandences = _context.Attendances.Include(p => p.Patient);
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                attandences = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Attendance, Patient>)attandences.Where(p => p.Patient.Token.Contains(searchTerm));
+                var attandences = _context.Attendances.Include(p => p.Patient).Where(p => p.Patient.Token.Contains(searchTerm)).ToList();
+                return attandences;
             }
-            return attandences.ToList();
+            else 
+            {
+                var attandences = _context.Attendances.Include(p => p.Patient).Where(p => p.Patient.Token.Contains(searchTerm)).ToList();
+                return attandences;
+            }
         }
         /// <summary>
         /// Get number of attendances for defined patient 

@@ -66,7 +66,7 @@
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                                 <!-- start patient today -->
-                                <table id="patients" class="data table table-striped no-margin">
+                                <table id="patientToday" class="data table table-striped no-margin">
                                     <thead>
                                         <tr>
                                             <th>Token</th>
@@ -140,8 +140,16 @@
     <partial name="_DataTableScript" />
     <script>
         $(document).ready(function () {
-            $("#patients").DataTable({
+            $("#patientToday").DataTable({
                 "scrollY": "300px",
+                "scrollCollapse": true,
+                "paging": false,
+                "filter": false,
+                "info": false
+
+            });
+
+            $("#patients").DataTable({
                 "scrollCollapse": true,
                 "paging": false,
                 "filter": false,

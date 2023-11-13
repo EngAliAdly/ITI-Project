@@ -1,0 +1,40 @@
+﻿@model AssistantDetailViewModel
+
+@{
+    ViewData["Title"] = "AssistantProfile";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Profile </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" src="~/assets/production/images/user.png" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>@Model.Assistant.Name</h3>
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i> @Model.Assistant.Address
+                        </li>
+                        <li>
+                            <i class="fa fa-phone"></i> @Model.Assistant.Phone
+                        </li>
+                        <li><i class="fa fa-inbox"></i>@Model.Assistant.Physician.Email</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -4,6 +4,7 @@ using ClinicMaster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicMaster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113145318_Assistant")]
+    partial class Assistant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,13 +79,7 @@ namespace ClinicMaster.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhysicianId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PhysicianId");
 
                     b.ToTable("Assistants");
                 });
@@ -493,17 +490,6 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("ClinicMaster.Core.Models.Assistant", b =>
-                {
-                    b.HasOne("ClinicMaster.Core.Models.Extend.ApplicationUser", "Physician")
-                        .WithMany()
-                        .HasForeignKey("PhysicianId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Physician");
                 });
 
             modelBuilder.Entity("ClinicMaster.Core.Models.Attendance", b =>

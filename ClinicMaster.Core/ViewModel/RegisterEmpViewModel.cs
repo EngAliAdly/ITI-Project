@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ClinicMaster.Core.ViewModel
 {
-    public class RegisterViewModel
+    public class RegisterEmpViewModel
     {
-        [Required(ErrorMessage = " Name Required")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Required(ErrorMessage = " Email Required")]
         [EmailAddress(ErrorMessage = "invalid mail formate")]
