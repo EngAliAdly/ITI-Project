@@ -2,6 +2,7 @@
 using ClinicMaster.Core.Helpers;
 using ClinicMaster.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
@@ -35,10 +36,20 @@ namespace ClinicMaster.Core.ViewModel
 
         public DateTime GetBirthDate()
         {
-            //TODO: Validate BirthDate 
+            // TODO: Validate BirthDate 
 
-            return DateTime.Parse(string.Format("{0}", BirthDate));
-            //return DateTime.ParseExact(BirthDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            string dateFormat = "dd/MM/yyyy";
+
+            // Use DateTime.TryParseExact to handle parsing errors gracefully
+            if (DateTime.TryParseExact(BirthDate, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+            {
+                return result;
+            }
+            else
+            {
+                // Handle parsing error
+                throw new ArgumentException("Invalid date format");
+            }
         }
 
         public IEnumerable<City>? Cities { get; set; }

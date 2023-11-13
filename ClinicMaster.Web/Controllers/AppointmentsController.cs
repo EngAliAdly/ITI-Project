@@ -1,11 +1,13 @@
 ﻿using ClinicMaster.Core;
 using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Assistant")]
     public class AppointmentsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,6 +22,7 @@ namespace ClinicMaster.Web.Controllers
             var appointments = _unitOfWork.Appointments.GetAppointments();
             return View(appointments);
         }
+
         public IActionResult Details(int id)
         {
             var appointment = _unitOfWork.Appointments.GetAppointmentWithPatient(id);
@@ -46,6 +49,7 @@ namespace ClinicMaster.Web.Controllers
             {
                 ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
+                TempData["error"] = "Appointment Created Not Valid";
                 return View(viewModel);
 
             }
@@ -64,6 +68,7 @@ namespace ClinicMaster.Web.Controllers
 
             _unitOfWork.Appointments.Add(appointment);
             _unitOfWork.Complete();
+            TempData["success"] = "Appointment Created successfully";
             return RedirectToAction("Index", "Appointments");
         }
 
@@ -96,6 +101,7 @@ namespace ClinicMaster.Web.Controllers
                 ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetDectors();
                 viewModel.Patients = _unitOfWork.Patients.GetPatients();
+                TempData["error"] = "Appointment Edited successfully";
                 return View(viewModel);
             }
 
@@ -108,6 +114,7 @@ namespace ClinicMaster.Web.Controllers
             appointmentInDb.DoctorId = viewModel.Doctor;
 
             _unitOfWork.Complete();
+            TempData["success"] = "Appointment Edited successfully";
             return RedirectToAction("Index");
 
         }

@@ -18,6 +18,8 @@
     <link href="~/assets/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="~/assets/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <!-- toastr -->
+    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="~/assets/build/css/custom.min.css" rel="stylesheet">
@@ -26,6 +28,7 @@
 <body class="nav-md footer_fixed login">
     <div role="main">
         <div class="">
+            <partial name="_NotificationPartial.cshtml" />
             @RenderBody()
         </div>
     </div>

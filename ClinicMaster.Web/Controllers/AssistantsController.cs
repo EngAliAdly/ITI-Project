@@ -1,10 +1,12 @@
 ﻿using ClinicMaster.Core;
 using ClinicMaster.Core.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Assistant")]
     public class AssistantsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -58,7 +60,8 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Edit(AssistantFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
-            {                
+            {
+                TempData["error"] = "Assistant Edited Not Valid";
                 return View(viewModel);
             }
 
@@ -69,7 +72,7 @@ namespace ClinicMaster.Web.Controllers
             assistantInDb.Address = viewModel.Address;
 
             _unitOfWork.Complete();
-
+            TempData["success"] = "Assistant Edited successfully";
             return RedirectToAction("Details", new { id = viewModel.Id });
         }
 

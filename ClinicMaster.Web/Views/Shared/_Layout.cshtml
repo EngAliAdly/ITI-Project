@@ -19,7 +19,8 @@
     <link href="~/assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="~/assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
+    <!-- toastr -->
+    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet">
     <!-- clockpicker -->
     <link href="~/assets/vendors/clockpicker/src/clockpicker.css" rel="stylesheet">
     <link href="~/assets/vendors/clockpicker/src/standalone.css" rel="stylesheet">
@@ -114,6 +115,7 @@
             </div>
             <!-- /top navigation -->
             <div class="right_col">
+                <partial name="_NotificationPartial.cshtml" />
                 @RenderBody()
             </div>
             <!-- footer content -->

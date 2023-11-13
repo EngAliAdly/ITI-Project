@@ -12,11 +12,15 @@
     <div class="col-md-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Profile </h2>
+                <h2>Profile @Model.Patient.Name</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a asp-controller="Patients" asp-action="Edit" asp-route-id="@Model.Patient.Id" class="btn-link"><i class="fa fa-edit m-right-xs"></i>Edit</a>
-                    </li>
+                    @if (User.IsInRole(RoleName.AssistantRoleName) || User.IsInRole(RoleName.AdministratorRoleName))
+                    {
+                        <li>
+                            <a asp-controller="Patients" asp-action="Edit" asp-route-id="@Model.Patient.Id" class="btn-link"><i class="fa fa-edit m-right-xs"></i>Edit</a>
+                        </li>
+                    }
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -52,7 +56,7 @@
                             Patient Appointment
                             <span class="badge bg-danger text-white">@Model.CountAppointments</span>
                         </button>
-                        @if (User.IsInRole(RoleName.AdministratorRoleName))
+                        @if (User.IsInRole(RoleName.AdministratorRoleName) || User.IsInRole(RoleName.AssistantRoleName))
                         {
                             <a asp-action="Create" asp-controller="Appointments" asp-route-id="@Model.Patient.Id">
                                 <i class="fa fa-plus"></i>
@@ -119,9 +123,12 @@
                             Lab Attendance
                             <span class="badge bg-danger text-white">@Model.CountAttendance</span>
                         </button>
-                        <a asp-action="Create" asp-controller="Attendances" asp-route-id="@Model.Patient.Id">
-                            <i class="fa fa-plus"></i>
-                        </a>
+                        @if (User.IsInRole(RoleName.DoctorRoleName))
+                        {
+                            <a asp-action="Create" asp-controller="Attendances" asp-route-id="@Model.Patient.Id">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        }
                         <!-- Modal -->
                         <div class="modal fade" id="staticBackdrop1" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
