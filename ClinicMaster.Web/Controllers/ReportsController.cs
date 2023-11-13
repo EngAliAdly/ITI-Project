@@ -1,10 +1,12 @@
 ﻿using ClinicMaster.Core;
 using ClinicMaster.Core.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Assistant")]
     public class ReportsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

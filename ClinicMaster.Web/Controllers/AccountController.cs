@@ -48,6 +48,7 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = "Login Not Valid";
                 return View(model);
             }
 
@@ -55,7 +56,8 @@ namespace ClinicMaster.Web.Controllers
             // To enable password failures to trigger account lockout, change to lockoutOnFailure: true
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,false);
             if (result.Succeeded)
-            {
+            { 
+                TempData["success"] = "Login successfully";
                 return RedirectToLocal(returnUrl);
             }
             else if (result.IsLockedOut)
@@ -106,10 +108,10 @@ namespace ClinicMaster.Web.Controllers
                     await _userManager.AddClaimAsync(user, claim);
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
- 
+                    TempData["success"] = "Register Created successfully";
                     return RedirectToAction("Index", "Home");
                 }
-
+                TempData["error"] = "Register Created Not Valid";
                 AddErrors(result);
             }
 
@@ -175,9 +177,10 @@ namespace ClinicMaster.Web.Controllers
                     //Mapper.Map<DoctorFormViewModel, Doctor>(model, doctor);
                     _unitOfWork.Doctors.Add(doctor);
                     _unitOfWork.Complete();
+                    TempData["success"] = "Register Doctor Created successfully";
                     return RedirectToAction("Index", "Doctors");
                 }
-
+                TempData["error"] = "Register Doctor Not Valid";
                 this.AddErrors(result);
             }
 
@@ -239,9 +242,10 @@ namespace ClinicMaster.Web.Controllers
                     //Mapper.Map<DoctorFormViewModel, Doctor>(model, doctor);
                     _unitOfWork.Assistants.Add(assistant);
                     _unitOfWork.Complete();
+                    TempData["success"] = "Register Assistant Created successfully";
                     return RedirectToAction("Index", "Assistants");
                 }
-
+                TempData["error"] = "Register Assistant Not Valid";
                 this.AddErrors(result);
             }
             // If we got this far, something failed, redisplay form
@@ -255,6 +259,7 @@ namespace ClinicMaster.Web.Controllers
         public async Task<IActionResult> LogOFF()
         {
             await _signInManager.SignOutAsync();
+            TempData["success"] = "LogOut successfully";
             return RedirectToAction("Login");
         }
 
