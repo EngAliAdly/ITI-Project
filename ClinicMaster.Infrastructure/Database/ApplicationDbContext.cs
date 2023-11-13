@@ -18,6 +18,7 @@ namespace ClinicMaster.Infrastructure.Data
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
         public virtual DbSet<City> Cities { get; set; }
+        public virtual DbSet<Assistant> Assistants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

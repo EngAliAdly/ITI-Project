@@ -144,11 +144,11 @@ namespace ClinicMaster.Web.Controllers
                 var user = new ApplicationUser()
                 {
                     Name = viewModel.Name,
-                    UserName = viewModel.RegisterViewModel.Email,
-                    Email = viewModel.RegisterViewModel.Email,
+                    UserName = viewModel.RegisterEmpViewModel.Email,
+                    Email = viewModel.RegisterEmpViewModel.Email,
                     IsActive = true
                 };
-                var result = await _userManager.CreateAsync(user, viewModel.RegisterViewModel.Password);
+                var result = await _userManager.CreateAsync(user, viewModel.RegisterEmpViewModel.Password);
 
                 if (result.Succeeded)
                 {
@@ -185,6 +185,67 @@ namespace ClinicMaster.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View("DoctorForm", viewModel);
+        }
+
+
+        #endregion
+
+        #region RegisterAssistant
+
+        //Assistant registration
+        [HttpGet]
+        public ActionResult RegisterAssistant()
+        {
+            var viewModel = new AssistantFormViewModel();
+            return View("AssistantForm", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAssistant(AssistantFormViewModel viewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser()
+                {
+                    Name = viewModel.Name,
+                    UserName = viewModel.RegisterEmpViewModel.Email,
+                    Email = viewModel.RegisterEmpViewModel.Email,
+                    IsActive = true
+                };
+                var result = await _userManager.CreateAsync(user, viewModel.RegisterEmpViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                    // Ensure that the role exists
+                    var roleExists = await _roleManager.RoleExistsAsync(RoleName.AssistantRoleName);
+                    if (!roleExists)
+                    {
+                        var role = new IdentityRole(RoleName.AssistantRoleName);
+                        await _roleManager.CreateAsync(role);
+                    }
+
+                    await _userManager.AddToRoleAsync(user, RoleName.AssistantRoleName);
+
+                    Assistant assistant = new Assistant()
+                    {
+                        Name = viewModel.Name,
+                        Phone = viewModel.Phone,
+                        Address = viewModel.Address,
+                        PhysicianId = user.Id
+                    };
+                    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.GivenName, assistant.Name));
+                    //Mapper.Map<DoctorFormViewModel, Doctor>(model, doctor);
+                    _unitOfWork.Assistants.Add(assistant);
+                    _unitOfWork.Complete();
+                    return RedirectToAction("Index", "Assistants");
+                }
+
+                this.AddErrors(result);
+            }
+            // If we got this far, something failed, redisplay form
+            return View("AssistantForm", viewModel);
         }
 
 

@@ -43,6 +43,7 @@ namespace ClinicMaster.Web.Controllers
             };
             return View(viewModel);
         }
+
         public IActionResult Edit(int id)
         {
             ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name");

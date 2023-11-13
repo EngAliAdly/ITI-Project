@@ -4,8 +4,8 @@ namespace ClinicMaster.Core.ViewModel
 {
     public class RegisterViewModel
     {
-        //[Required(ErrorMessage = " Name Required")]
-        public string? Name { get; set; }
+        [Required(ErrorMessage = " Name Required")]
+        public string Name { get; set; }
 
         [Required(ErrorMessage = " Email Required")]
         [EmailAddress(ErrorMessage = "invalid mail formate")]

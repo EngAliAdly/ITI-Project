@@ -24,6 +24,6 @@ namespace ClinicMaster.Core.ViewModel
         public IEnumerable<Specialization>? Specializations { get; set; }
         public IEnumerable<Doctor>? Doctors { get; set; }
 
-        public RegisterViewModel? RegisterViewModel { get; set; }
+        public RegisterEmpViewModel? RegisterEmpViewModel { get; set; }
     }
 }

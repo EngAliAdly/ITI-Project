@@ -1,6 +1,7 @@
 ﻿using ClinicMaster.Core.Attribute;
 using ClinicMaster.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace ClinicMaster.Core.ViewModel
 {
@@ -26,20 +27,30 @@ namespace ClinicMaster.Core.ViewModel
 
         [Required]
         public int Patient { get; set; }
-        public IEnumerable<Patient> Patients { get; set; }
+        public IEnumerable<Patient>? Patients { get; set; }
 
         [Required]
         public int Doctor { get; set; }
 
-        public IEnumerable<Doctor> Doctors { get; set; }
-        public string Heading { get; set; }
+        public IEnumerable<Doctor>? Doctors { get; set; }
+        public string? Heading { get; set; }
 
-        public IEnumerable<Appointment> Appointments { get; set; }
-
+        public IEnumerable<Appointment>? Appointments { get; set; }
 
         public DateTime GetStartDateTime()
         {
-            return DateTime.Parse(string.Format("{0} {1}", Date, Time));
+            string dateTimeString = $"{Date} {Time}";
+            DateTime result;
+
+            if (DateTime.TryParseExact(dateTimeString, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+            else
+            {
+                // Handle parsing failure, perhaps throw an exception or return a default value
+                throw new FormatException($"The date and time '{dateTimeString}' is not in the expected format.");
+            }
         }
     }
 }

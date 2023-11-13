@@ -13,6 +13,7 @@ namespace ClinicMaster.Infrastructure
         public IAttendanceRepository Attandences { get; private set; }
         public ICityRepository Cities { get; private set; }
         public IDoctorRepository Doctors { get; private set; }
+        public IAssistantRepository Assistants { get; private set; }
         public ISpecializationRepository Specializations { get; private set; }
         public IApplicationUserRepository Users { get; private set; }
 
@@ -24,6 +25,7 @@ namespace ClinicMaster.Infrastructure
             Attandences = new AttendanceRepository(context);
             Cities = new CityRepository(context);
             Doctors = new DoctorRepository(context);
+            Assistants = new AssistantRepository(context);
             Specializations = new SpecializationRepository(context);
             Users = new ApplicationUserRepository(context);
 

@@ -13,7 +13,7 @@
             <div class="x_content">
                 <form asp-controller="Account" asp-action="RegisterDoctor" method="post" class="form-horizontal form-label-left">
                     <input type="hidden" asp-for="Id" />
-
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="field item form-group">
                         <label asp-for="Name" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
@@ -49,26 +49,26 @@
                     </div>
 
                     <div class="field item form-group">
-                        <label asp-for="RegisterViewModel.Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <label asp-for="RegisterEmpViewModel.Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterViewModel.Email" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.Email" class="text-danger"></span>
+                            <input asp-for="RegisterEmpViewModel.Email" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.Email" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="field item form-group">
-                        <label asp-for="RegisterViewModel.Password" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <label asp-for="RegisterEmpViewModel.Password" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterViewModel.Password" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.Password" class="text-danger"></span>
+                            <input asp-for="RegisterEmpViewModel.Password" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.Password" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="field item form-group">
-                        <label asp-for="RegisterViewModel.ConfirmPassword" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <label asp-for="RegisterEmpViewModel.ConfirmPassword" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="RegisterViewModel.ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.ConfirmPassword" class="text-danger"></span>
+                            <input asp-for="RegisterEmpViewModel.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.ConfirmPassword" class="text-danger"></span>
                         </div>
                     </div>
 

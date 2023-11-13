@@ -55,6 +55,38 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("ClinicMaster.Core.Models.Assistant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicianId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhysicianId");
+
+                    b.ToTable("Assistants");
+                });
+
             modelBuilder.Entity("ClinicMaster.Core.Models.Attendance", b =>
                 {
                     b.Property<int>("Id")
@@ -461,6 +493,17 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("ClinicMaster.Core.Models.Assistant", b =>
+                {
+                    b.HasOne("ClinicMaster.Core.Models.Extend.ApplicationUser", "Physician")
+                        .WithMany()
+                        .HasForeignKey("PhysicianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Physician");
                 });
 
             modelBuilder.Entity("ClinicMaster.Core.Models.Attendance", b =>

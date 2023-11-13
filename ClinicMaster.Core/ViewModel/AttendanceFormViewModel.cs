@@ -11,7 +11,7 @@ namespace ClinicMaster.Core.ViewModel
 
         [Required]
         [StringLength(255)]
-        public string Diagnosis { get; set; }
+        public string? Diagnosis { get; set; }
 
         public string SecondDiagnosis { get; set; }
         public string ThirdDiagnosis { get; set; }
@@ -22,7 +22,7 @@ namespace ClinicMaster.Core.ViewModel
 
         public DateTime Date { get; set; }
 
-        public string Heading { get; set; }
+        public string? Heading { get; set; }
 
         [Required]
         public int Patient { get; set; }

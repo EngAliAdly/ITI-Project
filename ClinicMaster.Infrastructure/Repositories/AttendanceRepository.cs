@@ -1,7 +1,7 @@
 ﻿using ClinicMaster.Core.Models;
 using ClinicMaster.Core.Repositories;
 using ClinicMaster.Infrastructure.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicMaster.Infrastructure.Repositories
 {
@@ -30,14 +30,18 @@ namespace ClinicMaster.Infrastructure.Repositories
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public IEnumerable<Attendance> GetPatientAttandences(string searchTerm = null)
+        public IEnumerable<Attendance> GetPatientAttandences(string? searchTerm)
         {
-            var attandences = _context.Attendances.Include(p => p.Patient);
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                attandences = attandences.Where(p => p.Patient.Token.Contains(searchTerm));
+                var attandences = _context.Attendances.Include(p => p.Patient).Where(p => p.Patient.Token.Contains(searchTerm)).ToList();
+                return attandences;
             }
-            return attandences.ToList();
+            else 
+            {
+                var attandences = _context.Attendances.Include(p => p.Patient).Where(p => p.Patient.Token.Contains(searchTerm)).ToList();
+                return attandences;
+            }
         }
         /// <summary>
         /// Get number of attendances for defined patient 
