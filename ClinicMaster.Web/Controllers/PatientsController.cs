@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ClinicMaster.Core;
 using ClinicMaster.Core.Dto;
+using ClinicMaster.Core.Helpers;
 using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicMaster.Web.Controllers
 {
@@ -19,7 +21,8 @@ namespace ClinicMaster.Web.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var patients = _unitOfWork.Patients.GetPatients();
+            return View(patients);
         }
 
         public IActionResult Details(int id)
@@ -37,6 +40,9 @@ namespace ClinicMaster.Web.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+            ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
+
             var viewModel = new PatientFormViewModel
             {
                 Cities = _unitOfWork.Cities.GetCities(),
@@ -50,8 +56,11 @@ namespace ClinicMaster.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(PatientFormViewModel viewModel)
         {
+
             if (!ModelState.IsValid)
             {
+                ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
+                ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
                 viewModel.Cities = _unitOfWork.Cities.GetCities();
                 return View("PatientForm", viewModel);
 
@@ -83,7 +92,8 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Edit(int id)
         {
             var patient = _unitOfWork.Patients.GetPatient(id);
-
+            ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+            ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
             var viewModel = new PatientFormViewModel
             {
                 Heading = "Edit Patient",
@@ -100,17 +110,19 @@ namespace ClinicMaster.Web.Controllers
                 City = patient.CityId,
                 Cities = _unitOfWork.Cities.GetCities()
             };
-            return View("PatientForm", viewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(PatientFormViewModel viewModel)
+        public IActionResult Edit(PatientFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+                ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
                 viewModel.Cities = _unitOfWork.Cities.GetCities();
-                return View("PatientForm", viewModel);
+                return View(viewModel);
             }
 
 

@@ -31,7 +31,7 @@ namespace ClinicMaster.Core.ViewModel
 
         public DateTime Date { get; set; }
 
-        public string Heading { get; set; }
+        public string? Heading { get; set; }
 
         public DateTime GetBirthDate()
         {
@@ -41,7 +41,7 @@ namespace ClinicMaster.Core.ViewModel
             //return DateTime.ParseExact(BirthDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
         }
 
-        public IEnumerable<City> Cities { get; set; }
+        public IEnumerable<City>? Cities { get; set; }
 
 
 

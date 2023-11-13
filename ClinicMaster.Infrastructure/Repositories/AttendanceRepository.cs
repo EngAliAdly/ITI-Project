@@ -1,7 +1,7 @@
 ﻿using ClinicMaster.Core.Models;
 using ClinicMaster.Core.Repositories;
 using ClinicMaster.Infrastructure.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicMaster.Infrastructure.Repositories
 {
@@ -35,7 +35,7 @@ namespace ClinicMaster.Infrastructure.Repositories
             var attandences = _context.Attendances.Include(p => p.Patient);
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                attandences = attandences.Where(p => p.Patient.Token.Contains(searchTerm));
+                attandences = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Attendance, Patient>)attandences.Where(p => p.Patient.Token.Contains(searchTerm));
             }
             return attandences.ToList();
         }

@@ -27,6 +27,7 @@ namespace ClinicMaster.Web.Controllers
         }
         public IActionResult Create(int id)
         {
+            ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
             var viewModel = new AppointmentFormViewModel
             {
                 Patient = id,
@@ -43,6 +44,7 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
                 return View(viewModel);
 
@@ -68,6 +70,7 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Edit(int id)
         {
             var appointment = _unitOfWork.Appointments.GetAppointment(id);
+            ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
             var viewModel = new AppointmentFormViewModel()
             {
                 Heading = "New Appointment",
@@ -90,6 +93,7 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetDectors();
                 viewModel.Patients = _unitOfWork.Patients.GetPatients();
                 return View(viewModel);

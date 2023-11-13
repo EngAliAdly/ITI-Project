@@ -1,0 +1,165 @@
+﻿@model PatientFormViewModel
+@{
+    ViewData["Title"] = "PatientForm";
+}
+
+@section Styles{
+    <partial name="_DataTableStylesheet" />
+}
+<div class="row">
+    <div class=" col col-12 col-md-12 col-sm-12 col-xs-12 " style="height: 90vh !important;">
+        <div class="x_panel">
+            <div class="x_content ">
+                <form asp-action="Create" asp-controller="Patients" method="post" class="form-horizontal form-label-left" autocomplete="off">
+                    <input asp-for="Id" type="hidden" />
+
+                    <span class="section">Add Patient</span>
+
+                    <div class="form-group col col-12  ">
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="Name" class="control-label col-md-3 col-sm-3 col-xs-12">Name <span class="required"></span></label>
+                            <div class=" col-6 col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Name" class="form-control col-md-7 col-xs-12" autofocus="true" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @foreach (var genderItem in ViewBag.GenderList)
+                                {
+                                    <div class="form-check form-check-inline">
+                                        <input asp-for="Sex" type="radio" value="@genderItem.Value" id="@($"gender_{genderItem.Value}")" class="form-check-input">
+                                        <label class="form-check-label" for="@($"gender_{genderItem.Value}")">@genderItem.Text</label>
+                                    </div>
+                                }
+                                <span asp-validation-for="Sex" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="BirthDate" class="control-label col-md-3 col-sm-3 col-xs-12">Birth Date</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="BirthDate" class="form-control col-md-7 col-xs-12 datepicker" />
+                                <span asp-validation-for="BirthDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="Height" class="control-label col-md-3 col-sm-3 col-xs-12">Height</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Height" class="form-control col-md-7 col-xs-12" />
+                                <span asp-validation-for="Height" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="Weight" class="control-label col-md-3 col-sm-3 col-xs-12">Weight</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Weight" class="form-control col-md-7 col-xs-12" />
+                                <span asp-validation-for="Weight" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="Phone" class="control-label col-sm-3 col-xs-12">Phone</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Phone" id="phoneInput" class="form-control col-md-7 col-xs-12" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="Address" class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input asp-for="Address" class="form-control col-md-7 col-xs-12" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-2"></div>
+                            <label asp-for="City" class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @*<select asp-for="City" asp-items="(SelectList)ViewBag.CitiesList" class="form-control col-md-7 col-xs-12">*@
+                                <select asp-for="City" asp-items="@(new SelectList(ViewBag.CitiesList,  "Value", "Text" ))" class="form-control col-md-7 col-xs-12">
+                                    <option value="">Select</option>
+                                </select>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-5"></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                orientation: "top left",
+                autoclose: true
+            });
+        });
+
+    </script>
+
+
+    <script>
+        // Get the input element by its ID
+        var phoneInput = document.getElementById("phoneInput");
+
+        // Add an input event listener to the input element
+        phoneInput.addEventListener("input", function (event) {
+            // Get the input value
+            var inputValue = event.target.value;
+
+            // Remove any non-digit characters using a regular expression
+            var numericValue = inputValue.replace(/\D/g, "");
+
+            // Limit the input to 11 characters
+            if (numericValue.length > 11) {
+                numericValue = numericValue.substring(0, 11);
+            }
+
+            // Update the input value with the sanitized value
+            event.target.value = numericValue;
+        });
+    </script>
+    <script language="javascript">
+        function autoResizeDiv() {
+            document.getElementById('main').style.height = window.innerHeight + 'px';
+        }
+        window.onresize = autoResizeDiv;
+        autoResizeDiv();
+    </script>
+
+}
+

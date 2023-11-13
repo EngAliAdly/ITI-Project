@@ -36,8 +36,7 @@ namespace ClinicMaster.Web.Controllers
                 return View("AttendanceForm", viewModel);
 
             var attendance = new Attendance
-            {
-                Id = viewModel.Id,
+            {                
                 ClinicRemarks = viewModel.ClinicRemarks,
                 Diagnosis = viewModel.Diagnosis,
                 SecondDiagnosis = viewModel.SecondDiagnosis,

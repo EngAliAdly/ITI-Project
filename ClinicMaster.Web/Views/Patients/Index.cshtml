@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Patient>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+    <partial name="_DataTableStylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Patients</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="patients" class="table table-striped no-margin">
+                    <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th><a asp-controller="Patients" asp-action="Create" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Token </td>
+                                <td>@item.Name</td>
+                                <td>@item.Phone</td>
+                                <td>@item.Address</td>
+                                <td>@item.Cities.Name</td>
+                                <td>
+                                    <a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm"><i class="fa fa-folder"></i> Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <partial name="_DataTableScript" />
+    <script>
+        $(document).ready(function () {
+            $("#patients").DataTable();
+        });</script>
+
+}
+
