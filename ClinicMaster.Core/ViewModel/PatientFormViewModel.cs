@@ -22,11 +22,14 @@ namespace ClinicMaster.Core.ViewModel
 
 
         [Required]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "Phone must be 11 Numbers")]
         public string Phone { get; set; }
         [Required]
         public string Address { get; set; }
-        public string Height { get; set; }
-        public string Weight { get; set; }
+        [StringLength(3, MinimumLength = 2, ErrorMessage = "Height must be between 2 and 3 Numbers")]
+        public string? Height { get; set; }
+        [StringLength(3, MinimumLength = 2, ErrorMessage = "Weight must be between 2 and 3 Numbers")]
+        public string? Weight { get; set; }
 
         public byte City { get; set; }
 

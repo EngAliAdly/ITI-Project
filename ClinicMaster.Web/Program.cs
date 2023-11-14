@@ -2,11 +2,9 @@ using ClinicMaster.Core;
 using ClinicMaster.Core.Models.Extend;
 using ClinicMaster.Infrastructure;
 using ClinicMaster.Infrastructure.Data;
-using ClinicMaster.Web.Mapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 
 namespace ClinicMaster.Web
@@ -28,12 +26,6 @@ namespace ClinicMaster.Web
             #region Connection String Configuration
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            #endregion
-
-            #region Auto Mapper Configuration
-
-            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
-
             #endregion
 
             #region MicroSoft Identity

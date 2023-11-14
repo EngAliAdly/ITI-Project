@@ -13,10 +13,6 @@ namespace ClinicMaster.Core.ViewModel
         [StringLength(255)]
         public string Diagnosis { get; set; }
 
-        public string? SecondDiagnosis { get; set; }
-        public string? ThirdDiagnosis { get; set; }
-
-
         public string? Therapy { get; set; }
 
 

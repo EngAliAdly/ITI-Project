@@ -44,7 +44,7 @@
                             <div class="col-2"></div>
                             <label asp-for="BirthDate" class="control-label col-md-3 col-sm-3 col-xs-12">Birth Date</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input asp-for="BirthDate" placeholder="dd/mm/yyyy" class="form-control col-md-7 col-xs-12 datepicker" />
+                                <input asp-for="BirthDate" placeholder="dd/mm/yyyy" class="form-control col-md-7 col-xs-12 datepicker" autocomplete="off" onkeypress="allowDateInput(event)"/>
                                 <span asp-validation-for="BirthDate" class="text-danger"></span>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <div class="col-2"></div>
                             <label asp-for="Height" class="control-label col-md-3 col-sm-3 col-xs-12">Height</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input asp-for="Height" class="form-control col-md-7 col-xs-12" />
+                                <input asp-for="Height" id="heightInput" class="form-control col-md-7 col-xs-12" />
                                 <span asp-validation-for="Height" class="text-danger"></span>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                             <div class="col-2"></div>
                             <label asp-for="Weight" class="control-label col-md-3 col-sm-3 col-xs-12">Weight</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input asp-for="Weight" class="form-control col-md-7 col-xs-12" />
+                                <input asp-for="Weight" id="WeightInput" class="form-control col-md-7 col-xs-12" />
                                 <span asp-validation-for="Weight" class="text-danger"></span>
                             </div>
                         </div>
@@ -152,6 +152,58 @@
             // Update the input value with the sanitized value
             event.target.value = numericValue;
         });
+
+
+        // Get the input element by its ID
+        var heightInput = document.getElementById("heightInput");
+
+        // Add an input event listener to the input element
+        heightInput.addEventListener("input", function (event) {
+            // Get the input value
+            var inputValue = event.target.value;
+
+            // Remove any non-digit characters using a regular expression
+            var numericValue = inputValue.replace(/\D/g, "");
+
+            // Limit the input to 11 characters
+            if (numericValue.length > 3) {
+                numericValue = numericValue.substring(0, 3);
+            }
+
+            // Update the input value with the sanitized value
+            event.target.value = numericValue;
+        });
+
+
+        // Get the input element by its ID
+        var WeightInput = document.getElementById("WeightInput");
+
+        // Add an input event listener to the input element
+        WeightInput.addEventListener("input", function (event) {
+            // Get the input value
+            var inputValue = event.target.value;
+
+            // Remove any non-digit characters using a regular expression
+            var numericValue = inputValue.replace(/\D/g, "");
+
+            // Limit the input to 11 characters
+            if (numericValue.length > 3) {
+                numericValue = numericValue.substring(0, 3);
+            }
+
+            // Update the input value with the sanitized value
+            event.target.value = numericValue;
+        });
+
+        function allowDateInput(event) {
+            // Get the pressed key code
+            var keyCode = event.which || event.keyCode;
+
+            // Allow only 0-9 and /
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 47) {
+                event.preventDefault();
+            }
+        }
     </script>
     <script language="javascript">
         function autoResizeDiv() {

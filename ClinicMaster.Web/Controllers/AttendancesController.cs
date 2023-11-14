@@ -44,8 +44,6 @@ namespace ClinicMaster.Web.Controllers
             {
                 ClinicRemarks = viewModel.ClinicRemarks,
                 Diagnosis = viewModel.Diagnosis,
-                SecondDiagnosis = viewModel.SecondDiagnosis,
-                ThirdDiagnosis = viewModel.ThirdDiagnosis,
                 Therapy = viewModel.Therapy,
                 Date = DateTime.Now,
                 Patient = _unitOfWork.Patients.GetPatient(viewModel.Patient)

@@ -27,7 +27,7 @@
                     <div class="field item form-group">
                         <label asp-for="Date" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="Date" class="form-control date " />
+                            <input asp-for="Date" class="form-control date " autocomplete="off" onkeypress="allowDateInput(event)" />
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="field item form-group">
                         <label asp-for="Time" class="col-form-label col-md-3 col-sm-3  label-align"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="Time" class="form-control time" />
+                            <input asp-for="Time" class="form-control time" autocomplete="off" onkeypress="allowTimeInput(event)" maxlength="5" />
                             <span asp-validation-for="Time" class="text-danger"></span>
                         </div>
                     </div>
@@ -105,6 +105,26 @@
             } else {
                 return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
             }
-        };</script>
+        };
+        function allowDateInput(event) {
+            // Get the pressed key code
+            var keyCode = event.which || event.keyCode;
+
+            // Allow only 0-9 and /
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 47) {
+                event.preventDefault();
+            }
+        }
+
+        function allowTimeInput(event) {
+            // Get the pressed key code
+            var keyCode = event.which || event.keyCode;
+
+            // Allow only 0-9 and :
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 58) {
+                event.preventDefault();
+            }
+        }
+    </script>
 }
 

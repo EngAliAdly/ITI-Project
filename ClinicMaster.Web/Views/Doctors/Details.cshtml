@@ -83,12 +83,12 @@
                                         @foreach (var item in Model.UpcomingAppointments)
                                         {
                                             <tr>
-                                                <td>@item.Patient.Token</td>
-                                                <td>@item.Patient.Name</td>
-                                                <td>@item.Patient.Phone</td>
-                                                <td>@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
-                                                <td>@item.StartDateTime.ToString("HH:mm")</td>
-                                                <td>@item.Detail</td>
+                                                <td class="text text-info">@item.Patient.Token</td>
+                                                <td class="text text-info">@item.Patient.Name</td>
+                                                <td class="text text-info">@item.Patient.Phone</td>
+                                                <td class="text text-info">@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
+                                                <td class="text text-info">@item.StartDateTime.ToString("HH:mm")</td>
+                                                <td class="text text-info">@item.Detail</td>
                                                 <td> <a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
                                             </tr>
                                         }
@@ -115,13 +115,13 @@
                                         @foreach (var item in Model.Appointments)
                                         {
                                             <tr>
-                                                <td>@item.Patient.Token</td>
-                                                <td>@item.Patient.Name</td>
-                                                <td>@item.Patient.Phone</td>
-                                                <td>@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
-                                                <td>@item.StartDateTime.ToString("HH:mm")</td>
-                                                <td>@item.Detail</td>
-                                                <td><a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                                                <td class="text text-info">@item.Patient.Token</td>
+                                                <td class="text text-info">@item.Patient.Name</td>
+                                                <td class="text text-info">@item.Patient.Phone</td>
+                                                <td class="text text-info">@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
+                                                <td class="text text-info">@item.StartDateTime.ToString("HH:mm")</td>
+                                                <td class="text text-info">@item.Detail</td>
+                                                <td class="text text-info"><a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
                                             </tr>
                                         }
                                     </tbody>
