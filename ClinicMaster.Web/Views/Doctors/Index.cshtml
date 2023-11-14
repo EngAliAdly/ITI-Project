@@ -36,9 +36,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Name </td>
-                            <td>@item.Phone</td>
-                            <td>@item.Specialization.Name</td>
+                            <td class="text text-info">@item.Name </td>
+                            <td class="text text-info">@item.Phone</td>
+                            <td class="text text-info">@item.Specialization.Name</td>
                             <td>
                                 @if (item.IsAvailable == true)
                                 {

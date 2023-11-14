@@ -6,18 +6,18 @@ namespace ClinicMaster.Core.ViewModel
     {
         public int Id { get; set; }
 
-        [Required]
-        public string ClinicRemarks { get; set; }
+
+        public string? ClinicRemarks { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string? Diagnosis { get; set; }
+        public string Diagnosis { get; set; }
 
-        public string SecondDiagnosis { get; set; }
-        public string ThirdDiagnosis { get; set; }
+        public string? SecondDiagnosis { get; set; }
+        public string? ThirdDiagnosis { get; set; }
 
-        [Required]
-        public string Therapy { get; set; }
+
+        public string? Therapy { get; set; }
 
 
         public DateTime Date { get; set; }

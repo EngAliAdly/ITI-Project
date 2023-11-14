@@ -1,8 +1,8 @@
-﻿using ClinicMaster.Core.Models;
+﻿using ClinicMaster.Core;
+using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
-using ClinicMaster.Core;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicMaster.Web.Controllers
 {
@@ -35,11 +35,13 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Create(AttendanceFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
+            {
                 TempData["error"] = "Attendance Created Not Valid";
-            return View("AttendanceForm", viewModel);
+                return View("AttendanceForm", viewModel);
+            }
 
             var attendance = new Attendance
-            {                
+            {
                 ClinicRemarks = viewModel.ClinicRemarks,
                 Diagnosis = viewModel.Diagnosis,
                 SecondDiagnosis = viewModel.SecondDiagnosis,

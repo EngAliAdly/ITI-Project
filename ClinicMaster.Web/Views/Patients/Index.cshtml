@@ -32,11 +32,11 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Token </td>
-                                <td>@item.Name</td>
-                                <td>@item.Phone</td>
-                                <td>@item.Address</td>
-                                <td>@item.Cities.Name</td>
+                                <td class="text text-info">@item.Token </td>
+                                <td class="text text-info">@item.Name</td>
+                                <td class="text text-info">@item.Phone</td>
+                                <td class="text text-info">@item.Address</td>
+                                <td class="text text-info">@item.Cities.Name</td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm"> <i class="fa fa-folder"></i> Details</a>

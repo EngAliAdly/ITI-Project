@@ -25,8 +25,8 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Name </td>
-                            <td>@item.Phone</td>
+                            <td class="text text-info">@item.Name </td>
+                            <td class="text text-info">@item.Phone</td>
                             <td>
                                 <a asp-controller="Assistants" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm"><i class="fa fa-folder"></i> Details</a>
                             </td>

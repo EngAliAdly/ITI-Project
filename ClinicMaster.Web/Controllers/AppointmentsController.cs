@@ -64,7 +64,13 @@ namespace ClinicMaster.Web.Controllers
             };
             //Check if the slot is available
             if (_unitOfWork.Appointments.ValidateAppointment(appointment.StartDateTime, viewModel.Doctor))
-                return View("InvalidAppointment");
+            {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
+                viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
+                TempData["error"] = "Appointment Time Is Not Valid";
+                return View(viewModel);
+            }
+
 
             _unitOfWork.Appointments.Add(appointment);
             _unitOfWork.Complete();
