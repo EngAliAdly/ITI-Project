@@ -2,7 +2,7 @@
 using ClinicMaster.Core.Repositories;
 using ClinicMaster.Core.ViewModel;
 using ClinicMaster.Infrastructure.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicMaster.Infrastructure.Repositories
 {
@@ -19,10 +19,11 @@ namespace ClinicMaster.Infrastructure.Repositories
         /// <returns></returns>
         public IEnumerable<Appointment> GetAppointments()
         {
-            return _context.Appointments
+            var data = _context.Appointments
                 .Include(p => p.Patient)
                 .Include(d => d.Doctor)
                 .ToList();
+            return data;
         }
         /// <summary>
         /// Get appointments for single patient
@@ -115,7 +116,7 @@ namespace ClinicMaster.Infrastructure.Repositories
         /// <returns></returns>
         public IEnumerable<Appointment> GetDaillyAppointments(DateTime getDate)
         {
-            return _context.Appointments.Where(a => DbFunctions.DiffDays(a.StartDateTime, getDate) == 0)
+            return _context.Appointments.Where(a => EF.Functions.DateDiffDay(a.StartDateTime, getDate) == 0)
                 .Include(p => p.Patient)
                 .Include(d => d.Doctor)
                 .ToList();

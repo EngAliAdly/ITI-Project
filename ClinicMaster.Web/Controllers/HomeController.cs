@@ -1,10 +1,12 @@
-﻿using ClinicMaster.Infrastructure.Data;
+﻿using ClinicMaster.Core.Models;
+using ClinicMaster.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ClinicMaster.Web.Controllers
 {
-    [Authorize()]
+    [Authorize(Roles = "Administrator,Doctor,Assistant")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

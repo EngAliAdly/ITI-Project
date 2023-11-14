@@ -11,6 +11,7 @@ namespace ClinicMaster.Core
         IDoctorRepository Doctors { get; }
         ISpecializationRepository Specializations { get; }
         IApplicationUserRepository Users { get; }
+        IAssistantRepository Assistants { get; }
 
         void Complete();
     }

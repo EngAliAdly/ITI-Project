@@ -1,25 +1,26 @@
-﻿using AutoMapper;
-using ClinicMaster.Core;
-using ClinicMaster.Core.Dto;
+﻿using ClinicMaster.Core;
+using ClinicMaster.Core.Helpers;
 using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Doctor,Assistant")]
     public class PatientsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public PatientsController(IUnitOfWork unitOfWork,IMapper mapper)
+        public PatientsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
         public IActionResult Index()
         {
-            return View();
+            var patients = _unitOfWork.Patients.GetPatients();
+            return View(patients);
         }
 
         public IActionResult Details(int id)
@@ -37,6 +38,9 @@ namespace ClinicMaster.Web.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+            ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
+
             var viewModel = new PatientFormViewModel
             {
                 Cities = _unitOfWork.Cities.GetCities(),
@@ -50,9 +54,13 @@ namespace ClinicMaster.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(PatientFormViewModel viewModel)
         {
+
             if (!ModelState.IsValid)
             {
+                ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
+                ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
                 viewModel.Cities = _unitOfWork.Cities.GetCities();
+                TempData["Error"] = "Patient Input Not Valid";
                 return View("PatientForm", viewModel);
 
             }
@@ -73,6 +81,7 @@ namespace ClinicMaster.Web.Controllers
 
             _unitOfWork.Patients.Add(patient);
             _unitOfWork.Complete();
+            TempData["success"] = "Patient Created successfully";
             return RedirectToAction("Index", "Patients");
 
             // TODO: BUG redirect to detail 
@@ -83,7 +92,8 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Edit(int id)
         {
             var patient = _unitOfWork.Patients.GetPatient(id);
-
+            ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+            ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
             var viewModel = new PatientFormViewModel
             {
                 Heading = "Edit Patient",
@@ -100,17 +110,20 @@ namespace ClinicMaster.Web.Controllers
                 City = patient.CityId,
                 Cities = _unitOfWork.Cities.GetCities()
             };
-            return View("PatientForm", viewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(PatientFormViewModel viewModel)
+        public IActionResult Edit(PatientFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.CitiesList = new SelectList(_unitOfWork.Cities.GetCities(), "Id", "Name");
+                ViewBag.GenderList = EnumHelpers.ToSelectList(typeof(Gender));
                 viewModel.Cities = _unitOfWork.Cities.GetCities();
-                return View("PatientForm", viewModel);
+                TempData["Error"] = "Patient Edit Not Valid";
+                return View(viewModel);
             }
 
 
@@ -126,27 +139,13 @@ namespace ClinicMaster.Web.Controllers
             patientInDb.CityId = viewModel.City;
 
             _unitOfWork.Complete();
+            TempData["success"] = "Patient Edit successfully";
             return RedirectToAction("Index", "Patients")
 ;
         }
 
 
         #region Api Calls
-
-        [HttpGet]
-        public IActionResult GetPatients() 
-        {
-
-            var patientsQuery = _unitOfWork.Patients.GetPatients();
-
-
-            var patientDto = patientsQuery.ToList()
-                                          .Select(_mapper.Map<Patient, PatientDto>);
-            return Json(patientDto);
-        }
-
-
-
         [HttpDelete]
         public IActionResult Delete(int id)
         {

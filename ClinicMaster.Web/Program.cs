@@ -2,18 +2,17 @@ using ClinicMaster.Core;
 using ClinicMaster.Core.Models.Extend;
 using ClinicMaster.Infrastructure;
 using ClinicMaster.Infrastructure.Data;
-using ClinicMaster.Web.Mapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 
 namespace ClinicMaster.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +27,6 @@ namespace ClinicMaster.Web
             #region Connection String Configuration
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            #endregion
-
-            #region Auto Mapper Configuration
-
-            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
-
             #endregion
 
             #region MicroSoft Identity
@@ -84,6 +77,20 @@ namespace ClinicMaster.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            try
+            {
+                if (!context.Database.CanConnect())
+                {
+                    await context.Database.MigrateAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
             app.Run();
         }
     }

@@ -2,9 +2,12 @@
 using ClinicMaster.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Doctor,Assistant")]
     public class DoctorsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -42,8 +45,10 @@ namespace ClinicMaster.Web.Controllers
             };
             return View(viewModel);
         }
+
         public IActionResult Edit(int id)
         {
+            ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name");
             var doctor = _unitOfWork.Doctors.GetDoctor(id);
             if (doctor == null) return NotFound();
             var viewModel = new DoctorFormViewModel()
@@ -66,7 +71,9 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Specializations = new SelectList(_unitOfWork.Specializations.GetSpecializations(), "Id", "Name", viewModel.Specialization);
                 viewModel.Specializations = _unitOfWork.Specializations.GetSpecializations();
+                TempData["error"] = "Doctor Edited Not Valid";
                 return View(viewModel);
             }
 
@@ -79,7 +86,7 @@ namespace ClinicMaster.Web.Controllers
             doctorInDb.SpecializationId = viewModel.Specialization;
 
             _unitOfWork.Complete();
-
+            TempData["success"] = "Doctor Edited successfully";
             return RedirectToAction("Details", new { id = viewModel.Id });
         }
     }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Assistant>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+    <partial name="_DataTableStylesheet" />
+}
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Assistants</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="assistants" class="table table-striped no-margin">
+                    <thead>
+                        <tr>
+                            <th> Name </th>
+                            <th>Phone </th>
+                            <th><a asp-controller="Account" asp-action="RegisterAssistant" class="btn btn-success btn-sm"><i class="fa fa-edit"></i>Add</a></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text text-info">@item.Name </td>
+                            <td class="text text-info">@item.Phone</td>
+                            <td>
+                                <a asp-controller="Assistants" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm"><i class="fa fa-folder"></i> Details</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <partial name="_DataTableScript" />
+    <script>
+        $(document).ready(function () {
+            $("#assistants").DataTable();
+        });</script>
+}
+

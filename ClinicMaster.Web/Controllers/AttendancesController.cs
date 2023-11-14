@@ -1,10 +1,12 @@
-﻿using ClinicMaster.Core.Models;
+﻿using ClinicMaster.Core;
+using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
-using ClinicMaster.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Doctor,Assistant")]
     public class AttendancesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -33,21 +35,22 @@ namespace ClinicMaster.Web.Controllers
         public IActionResult Create(AttendanceFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Attendance Created Not Valid";
                 return View("AttendanceForm", viewModel);
+            }
 
             var attendance = new Attendance
             {
-                Id = viewModel.Id,
                 ClinicRemarks = viewModel.ClinicRemarks,
                 Diagnosis = viewModel.Diagnosis,
-                SecondDiagnosis = viewModel.SecondDiagnosis,
-                ThirdDiagnosis = viewModel.ThirdDiagnosis,
                 Therapy = viewModel.Therapy,
                 Date = DateTime.Now,
                 Patient = _unitOfWork.Patients.GetPatient(viewModel.Patient)
             };
             _unitOfWork.Attandences.Add(attendance);
             _unitOfWork.Complete();
+            TempData["success"] = "Attendance Created successfully";
             return RedirectToAction("Details", "Patients", new { id = viewModel.Patient });
         }
     }

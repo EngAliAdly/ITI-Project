@@ -1,7 +1,7 @@
 ﻿using ClinicMaster.Core.Models;
 using ClinicMaster.Core.Repositories;
 using ClinicMaster.Infrastructure.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicMaster.Infrastructure.Repositories
 {
@@ -40,7 +40,7 @@ namespace ClinicMaster.Infrastructure.Repositories
         public IEnumerable<Patient> GetRecentPatients()
         {
             return _context.Patients
-                .Where(a => DbFunctions.DiffDays(a.DateTime, DateTime.Now) == 0)
+                .Where(a => EF.Functions.DateDiffDay(a.DateTime, DateTime.Now) == 0)
                 .Include(c => c.Cities);
         }
 

@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/lib/toastr.js/",
+      "files": [
+        "toastr.min.js",
+        "toastr.min.css"
+      ]
+    },
+    {
+      "library": "sweetalert2@11.9.0",
+      "destination": "wwwroot/sweetalert2/"
+    }
+  ]
+}

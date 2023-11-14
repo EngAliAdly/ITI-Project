@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Patient>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+
+    <link href="~/sweetalert2/sweetalert2.css" rel="stylesheet" />
+    <partial name="_DataTableStylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Patients</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="patients" class="table table-striped no-margin">
+                    <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th><a asp-controller="Patients" asp-action="Create" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Add</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text text-info">@item.Token </td>
+                                <td class="text text-info">@item.Name</td>
+                                <td class="text text-info">@item.Phone</td>
+                                <td class="text text-info">@item.Address</td>
+                                <td class="text text-info">@item.Cities.Name</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-controller="Patients" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm"> <i class="fa fa-folder"></i> Details</a>
+                                        <a onClick=Delete('/patients/delete/@item.Id') class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"></i> Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <!---Sweet Alert2 js-->
+    <script src="~/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/sweetalert2/sweetalert2.min.js"></script>
+    <partial name="_DataTableScript" />
+    <script>
+        var dataTable;
+        $(document).ready(function () {
+            $("#patients").DataTable();
+        });
+
+        function Delete(url) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function (data) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your Patient has been deleted.",
+                                icon: "success",
+                            }).then(() => {
+                                // This code will be executed after the second Swal.fire dialog is fully closed
+                                location.reload();
+                            });
+                            toastr.success(data.message);
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+
+}
+

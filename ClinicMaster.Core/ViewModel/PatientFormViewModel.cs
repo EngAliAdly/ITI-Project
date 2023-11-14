@@ -2,6 +2,7 @@
 using ClinicMaster.Core.Helpers;
 using ClinicMaster.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
@@ -21,27 +22,40 @@ namespace ClinicMaster.Core.ViewModel
 
 
         [Required]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "Phone must be 11 Numbers")]
         public string Phone { get; set; }
         [Required]
         public string Address { get; set; }
-        public string Height { get; set; }
-        public string Weight { get; set; }
+        [StringLength(3, MinimumLength = 2, ErrorMessage = "Height must be between 2 and 3 Numbers")]
+        public string? Height { get; set; }
+        [StringLength(3, MinimumLength = 2, ErrorMessage = "Weight must be between 2 and 3 Numbers")]
+        public string? Weight { get; set; }
 
         public byte City { get; set; }
 
         public DateTime Date { get; set; }
 
-        public string Heading { get; set; }
+        public string? Heading { get; set; }
 
         public DateTime GetBirthDate()
         {
-            //TODO: Validate BirthDate 
+            // TODO: Validate BirthDate 
 
-            return DateTime.Parse(string.Format("{0}", BirthDate));
-            //return DateTime.ParseExact(BirthDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+            string dateFormat = "dd/MM/yyyy";
+
+            // Use DateTime.TryParseExact to handle parsing errors gracefully
+            if (DateTime.TryParseExact(BirthDate, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+            {
+                return result;
+            }
+            else
+            {
+                // Handle parsing error
+                throw new ArgumentException("Invalid date format");
+            }
         }
 
-        public IEnumerable<City> Cities { get; set; }
+        public IEnumerable<City>? Cities { get; set; }
 
 
 

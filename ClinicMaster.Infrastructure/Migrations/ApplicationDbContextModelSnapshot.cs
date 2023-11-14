@@ -55,6 +55,38 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("ClinicMaster.Core.Models.Assistant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicianId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhysicianId");
+
+                    b.ToTable("Assistants");
+                });
+
             modelBuilder.Entity("ClinicMaster.Core.Models.Attendance", b =>
                 {
                     b.Property<int>("Id")
@@ -64,7 +96,6 @@ namespace ClinicMaster.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClinicRemarks")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
@@ -78,16 +109,7 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SecondDiagnosis")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Therapy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ThirdDiagnosis")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -110,6 +132,158 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "Minya"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "Beni Suef"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            Name = "Assiut"
+                        },
+                        new
+                        {
+                            Id = (byte)4,
+                            Name = "Cairo"
+                        },
+                        new
+                        {
+                            Id = (byte)5,
+                            Name = "Giza"
+                        },
+                        new
+                        {
+                            Id = (byte)6,
+                            Name = "Alexandria"
+                        },
+                        new
+                        {
+                            Id = (byte)7,
+                            Name = "Port Said"
+                        },
+                        new
+                        {
+                            Id = (byte)8,
+                            Name = "Suez"
+                        },
+                        new
+                        {
+                            Id = (byte)9,
+                            Name = "Ismailia"
+                        },
+                        new
+                        {
+                            Id = (byte)10,
+                            Name = "Hurghada"
+                        },
+                        new
+                        {
+                            Id = (byte)11,
+                            Name = "Luxor"
+                        },
+                        new
+                        {
+                            Id = (byte)12,
+                            Name = "Aswan"
+                        },
+                        new
+                        {
+                            Id = (byte)13,
+                            Name = "Minya"
+                        },
+                        new
+                        {
+                            Id = (byte)14,
+                            Name = "Beni Suef"
+                        },
+                        new
+                        {
+                            Id = (byte)15,
+                            Name = "Sohag"
+                        },
+                        new
+                        {
+                            Id = (byte)16,
+                            Name = "Qena"
+                        },
+                        new
+                        {
+                            Id = (byte)17,
+                            Name = "Damietta"
+                        },
+                        new
+                        {
+                            Id = (byte)18,
+                            Name = "Kafr El Sheikh"
+                        },
+                        new
+                        {
+                            Id = (byte)19,
+                            Name = "Dakahlia"
+                        },
+                        new
+                        {
+                            Id = (byte)20,
+                            Name = "Gharbia"
+                        },
+                        new
+                        {
+                            Id = (byte)21,
+                            Name = "Sharqia"
+                        },
+                        new
+                        {
+                            Id = (byte)22,
+                            Name = "Beheira"
+                        },
+                        new
+                        {
+                            Id = (byte)23,
+                            Name = "Faiyum"
+                        },
+                        new
+                        {
+                            Id = (byte)24,
+                            Name = "Ismailia"
+                        },
+                        new
+                        {
+                            Id = (byte)25,
+                            Name = "Matrouh"
+                        },
+                        new
+                        {
+                            Id = (byte)26,
+                            Name = "North Sinai"
+                        },
+                        new
+                        {
+                            Id = (byte)27,
+                            Name = "South Sinai"
+                        },
+                        new
+                        {
+                            Id = (byte)28,
+                            Name = "Red Sea"
+                        },
+                        new
+                        {
+                            Id = (byte)29,
+                            Name = "New Valley"
+                        },
+                        new
+                        {
+                            Id = (byte)30,
+                            Name = "Qalyubia"
+                        });
                 });
 
             modelBuilder.Entity("ClinicMaster.Core.Models.Doctor", b =>
@@ -309,6 +483,18 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Specializations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Dentistry"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Ophthalmology"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -461,6 +647,17 @@ namespace ClinicMaster.Infrastructure.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("ClinicMaster.Core.Models.Assistant", b =>
+                {
+                    b.HasOne("ClinicMaster.Core.Models.Extend.ApplicationUser", "Physician")
+                        .WithMany()
+                        .HasForeignKey("PhysicianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Physician");
                 });
 
             modelBuilder.Entity("ClinicMaster.Core.Models.Attendance", b =>

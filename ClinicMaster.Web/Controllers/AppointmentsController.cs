@@ -1,11 +1,13 @@
 ﻿using ClinicMaster.Core;
 using ClinicMaster.Core.Models;
 using ClinicMaster.Core.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClinicMaster.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Assistant")]
     public class AppointmentsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,6 +22,7 @@ namespace ClinicMaster.Web.Controllers
             var appointments = _unitOfWork.Appointments.GetAppointments();
             return View(appointments);
         }
+
         public IActionResult Details(int id)
         {
             var appointment = _unitOfWork.Appointments.GetAppointmentWithPatient(id);
@@ -27,6 +30,7 @@ namespace ClinicMaster.Web.Controllers
         }
         public IActionResult Create(int id)
         {
+            ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
             var viewModel = new AppointmentFormViewModel
             {
                 Patient = id,
@@ -43,7 +47,9 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
+                TempData["error"] = "Appointment Created Not Valid";
                 return View(viewModel);
 
             }
@@ -58,16 +64,24 @@ namespace ClinicMaster.Web.Controllers
             };
             //Check if the slot is available
             if (_unitOfWork.Appointments.ValidateAppointment(appointment.StartDateTime, viewModel.Doctor))
-                return View("InvalidAppointment");
+            {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
+                viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
+                TempData["error"] = "Appointment Time Is Not Valid";
+                return View(viewModel);
+            }
+
 
             _unitOfWork.Appointments.Add(appointment);
             _unitOfWork.Complete();
+            TempData["success"] = "Appointment Created successfully";
             return RedirectToAction("Index", "Appointments");
         }
 
         public IActionResult Edit(int id)
         {
             var appointment = _unitOfWork.Appointments.GetAppointment(id);
+            ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
             var viewModel = new AppointmentFormViewModel()
             {
                 Heading = "New Appointment",
@@ -90,8 +104,10 @@ namespace ClinicMaster.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
                 viewModel.Doctors = _unitOfWork.Doctors.GetDectors();
                 viewModel.Patients = _unitOfWork.Patients.GetPatients();
+                TempData["error"] = "Appointment Edited successfully";
                 return View(viewModel);
             }
 
@@ -104,6 +120,7 @@ namespace ClinicMaster.Web.Controllers
             appointmentInDb.DoctorId = viewModel.Doctor;
 
             _unitOfWork.Complete();
+            TempData["success"] = "Appointment Edited successfully";
             return RedirectToAction("Index");
 
         }
