@@ -56,7 +56,9 @@
     <partial name="_DataTableScript" />
     <script>
         $(document).ready(function () {
-            var table = $("#users").DataTable();
+            var table = $("#users").DataTable({
+                "scrollY": true
+            });
         });</script>
 }
 

@@ -42,7 +42,9 @@
     <partial name="_DataTableScript" />
     <script>
         $(document).ready(function () {
-            $("#assistants").DataTable();
+            $("#assistants").DataTable({
+                "scrollY": true
+            });
         });</script>
 }
 

@@ -67,7 +67,9 @@
     <script>
         var dataTable;
         $(document).ready(function () {
-            $("#patients").DataTable();
+            $("#patients").DataTable({
+                "scrollY": true
+            });
         });
 
         function Delete(url) {

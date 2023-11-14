@@ -74,7 +74,9 @@
     <partial name="_DataTableScript" />
     <script>
         $(document).ready(function () {
-            $("#doctors").DataTable();
+            $("#doctors").DataTable({
+                "scrollY": true
+            });
         });</script>
 }
 
