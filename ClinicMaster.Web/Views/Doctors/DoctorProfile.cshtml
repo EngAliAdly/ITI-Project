@@ -81,7 +81,7 @@
                                                 <td class="text text-info">@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
                                                 <td class="text text-info">@item.StartDateTime.ToString("HH:mm")</td>
                                                 <td class="text text-info">@item.Detail</td>
-                                                <td><a asp-controller="Patients" asp-action="Details" asp-route-Id="@item.Patient.Id" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                                                <td><a asp-controller="Patients" asp-action="Details" asp-route-Id="@item.Patient.Id" class="btn btn-info "><i class="fa fa-eye"></i></a></td>
                                             </tr>
                                         }
                                     </tbody>
@@ -109,6 +109,22 @@
                 "info": false
 
             });
-        });</script>
+        });
+
+        $(document).ready(function () {
+            $(document).ready(function () {
+                // Simulate a click on the "Appointments" tab
+                $('#home-tab').click();
+                $('#home-tab').click(function () {
+                    // Reload the page when the tab is clicked
+                    location.reload();
+                });
+                setInterval(function () {
+                    location.reload();
+                }, 300000);
+            });
+        });
+
+    </script>
 }
 

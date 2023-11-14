@@ -80,7 +80,7 @@ namespace ClinicMaster.Web.Controllers
         //
         // GET: /Account/Register
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register672023()
         {
             return View();
         }

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewBag.Title Form</h1>
+<h1>@ViewBag.Title Administrator</h1>
 <div class="col-md-12 col-sm-12">
     <div class="x_content">
         <form asp-controller="Account" asp-action="Register" method="post">
@@ -42,8 +42,8 @@
                 <br />
                 <div class="form-group">
                     <div class="col-md-6 offset-md-3">
-                        <button type='submit' class="btn btn-outline-info">Register</button>
-                        <button type='reset' class="btn btn-outline-dark">Reset</button>
+                        <button type='submit' class="btn btn-info">Register</button>
+                        <button type='reset' class="btn btn-dark">Reset</button>
                     </div>
                 </div>
             </div>
@@ -74,3 +74,4 @@
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
+

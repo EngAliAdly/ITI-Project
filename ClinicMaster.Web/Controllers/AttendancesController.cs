@@ -51,7 +51,7 @@ namespace ClinicMaster.Web.Controllers
             _unitOfWork.Attandences.Add(attendance);
             _unitOfWork.Complete();
             TempData["success"] = "Attendance Created successfully";
-            return RedirectToAction("Details", "Patients", new { id = viewModel.Patient });
+            return RedirectToAction("DoctorProfile", "Doctors");
         }
     }
 }

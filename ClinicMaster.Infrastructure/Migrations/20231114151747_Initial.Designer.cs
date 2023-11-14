@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicMaster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231114040826_Initial")]
+    [Migration("20231114151747_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -200,91 +200,81 @@ namespace ClinicMaster.Infrastructure.Migrations
                         new
                         {
                             Id = (byte)13,
-                            Name = "Minya"
-                        },
-                        new
-                        {
-                            Id = (byte)14,
-                            Name = "Beni Suef"
-                        },
-                        new
-                        {
-                            Id = (byte)15,
                             Name = "Sohag"
                         },
                         new
                         {
-                            Id = (byte)16,
+                            Id = (byte)14,
                             Name = "Qena"
                         },
                         new
                         {
-                            Id = (byte)17,
+                            Id = (byte)15,
                             Name = "Damietta"
                         },
                         new
                         {
-                            Id = (byte)18,
+                            Id = (byte)16,
                             Name = "Kafr El Sheikh"
                         },
                         new
                         {
-                            Id = (byte)19,
+                            Id = (byte)17,
                             Name = "Dakahlia"
                         },
                         new
                         {
-                            Id = (byte)20,
+                            Id = (byte)18,
                             Name = "Gharbia"
                         },
                         new
                         {
-                            Id = (byte)21,
+                            Id = (byte)19,
                             Name = "Sharqia"
                         },
                         new
                         {
-                            Id = (byte)22,
+                            Id = (byte)20,
                             Name = "Beheira"
                         },
                         new
                         {
-                            Id = (byte)23,
+                            Id = (byte)21,
                             Name = "Faiyum"
                         },
                         new
                         {
-                            Id = (byte)24,
+                            Id = (byte)22,
                             Name = "Ismailia"
                         },
                         new
                         {
-                            Id = (byte)25,
+                            Id = (byte)23,
                             Name = "Matrouh"
                         },
                         new
                         {
-                            Id = (byte)26,
+                            Id = (byte)24,
                             Name = "North Sinai"
                         },
                         new
                         {
-                            Id = (byte)27,
+                            Id = (byte)25,
                             Name = "South Sinai"
                         },
                         new
                         {
-                            Id = (byte)28,
+                            Id = (byte)26,
                             Name = "Red Sea"
                         },
                         new
                         {
-                            Id = (byte)29,
+                            Id = (byte)27,
                             Name = "New Valley"
                         },
                         new
                         {
-                            Id = (byte)30,
+                            Id = (byte)28,
                             Name = "Qalyubia"
                         });
                 });
