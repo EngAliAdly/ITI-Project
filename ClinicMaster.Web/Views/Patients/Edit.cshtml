@@ -122,11 +122,15 @@
 
     <script>
         $(document).ready(function () {
+
+            var maxDate = new Date();
+            maxDate.setFullYear(maxDate.getFullYear() - 18);
             $('.datepicker').datepicker({
                 format: 'dd/mm/yyyy',
                 todayHighlight: true,
                 orientation: "top left",
-                autoclose: true
+                autoclose: true,
+                endDate: maxDate // Set the maximum selectable date
             });
         });
 

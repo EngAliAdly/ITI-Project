@@ -53,6 +53,18 @@ namespace ClinicMaster.Web.Controllers
                 return View(viewModel);
 
             }
+
+            var startDateTime = viewModel.GetStartDateTime();
+
+            // Validate that the appointment date is today's date or higher
+            if (startDateTime.Date < DateTime.Now.Date)
+            {
+                ViewBag.DoctorsList = new SelectList(_unitOfWork.Doctors.GetAvailableDoctors(), "Id", "Name");
+                viewModel.Doctors = _unitOfWork.Doctors.GetAvailableDoctors();
+                TempData["error"] = "Appointment Date must be today's date or higher.";
+                return View(viewModel);
+            }
+
             var appointment = new Appointment()
             {
                 StartDateTime = viewModel.GetStartDateTime(),
