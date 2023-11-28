@@ -1,0 +1,153 @@
+﻿@model AppointmentFormViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/assets/gridDoctor.css">
+}
+
+<form asp-action="Create" asp-controller="Appointments" method="post" class="form-horizontal form-label-left">
+
+    <input asp-for="Patient" type="hidden" />
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <br />
+                    <span class="section">Doctor info</span>
+                    <div class="form-group">
+                        <label asp-for="Doctor" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select asp-for="Doctor" asp-items="(SelectList)ViewBag.DoctorsList" class="form-control" id="DoctorID">
+                                <option value="">Select one</option>
+                            </select>
+                            <span asp-validation-for="Doctor" class=""></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                    <div id="divAppointments"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="x_panel">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <span class="section">Appointment </span>
+                <div class="field item form-group">
+                    <label asp-for="Date" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                    <div class="col-md-6 col-sm-6">
+                        <input asp-for="Date" class="form-control date " autocomplete="off" onkeypress="allowDateInput(event)" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="field item form-group">
+                    <label asp-for="Time" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                    <div class="col-md-6 col-sm-6">
+                        <input asp-for="Time" class="form-control time" autocomplete="off" onkeypress="allowTimeInput(event)" />
+                        <span asp-validation-for="Time" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="field item form-group">
+                    <label asp-for="Detail" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                    <div class="col-md-6 col-sm-6">
+                        <textarea asp-for="Detail" class="form-control"></textarea>
+                        <span asp-validation-for="Detail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-6">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+           
+
+            $('#DoctorID').change(function () {
+                var URL = '/appointments/GetUpcommingAppointments/' + $('#DoctorID').val();
+
+                $.ajax({
+                    url: URL,
+                    contentType: 'application/html; charset=utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+
+                })
+                    .success(function (result) {
+                        $('#divAppointments').show();
+                        $('#divAppointments').html(result);
+                    })
+                    .error(function (xhr, status) {
+                        alert(status);
+                    })
+
+            });
+
+
+        });
+
+        $('.date').datepicker({
+            minDate: 0,
+            format: "dd/mm/yyyy",
+            todayHighlight: true,
+            clearBtn: true,
+            orientation: "bottom left",
+            autoclose: true,
+            startDate: new Date()
+        });
+
+        $('.time').clockpicker({
+            placement: 'bottom',
+            align: 'left',
+            donetext: 'Done',
+            twentyfourhour: true
+        });
+
+        jQuery.validator.methods.date = function (value, element) {
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            if (isChrome) {
+                var d = new Date();
+                return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+            } else {
+                return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+            }
+        };
+
+        function allowDateInput(event) {
+            // Get the pressed key code
+            var keyCode = event.which || event.keyCode;
+
+            // Allow only 0-9 and /
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 47) {
+                event.preventDefault();
+            }
+        }
+
+        function allowTimeInput(event) {
+            // Get the pressed key code
+            var keyCode = event.which || event.keyCode;
+
+            // Allow only 0-9 and :
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 58) {
+                event.preventDefault();
+            }
+        }
+
+    </script>
+}
+
+

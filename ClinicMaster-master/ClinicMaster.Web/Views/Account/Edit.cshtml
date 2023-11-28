@@ -1,0 +1,54 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Edit user</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form asp-controller="Account" asp-action="Edit" method="post" class="form-horizontal form-label-left">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="field item form-group">
+                        <label asp-for="Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Email" class="form-control" readonly />
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align">Status</label>
+                        <div class="col-md-6 col-sm-6 radio">
+                            <label>
+                                <input asp-for="IsActive" type="radio" value="true" class="flat" /> Active
+                            </label>
+                            <label>
+                                <input asp-for="IsActive" type="radio" value="false" class="flat" /> Locked
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ln_solid">
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-6 offset-md-3">
+                                <button type='submit' class="btn btn-outline-info">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+

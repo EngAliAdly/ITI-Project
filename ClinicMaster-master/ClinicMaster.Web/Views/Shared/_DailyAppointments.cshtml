@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Appointment>
+@{
+
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <table class=" data table table-striped no-margin dataTable">
+                    <thead>
+                        <tr>
+                            <th>Token</th>
+                            <th>Patient name</th>
+                            <th>Phone</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                            <th>Detail</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text text-info">@item.Patient.Token</td>
+                                <td class="text text-info">@item.Patient.Name</td>
+                                <td class="text text-info">@item.Patient.Phone</td>
+                                <td class="text text-info">@item.StartDateTime.ToString("MMM")-@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
+                                <td class="text text-info">@item.StartDateTime.ToString("HH:mm")</td>
+                                <td class="text text-info">@item.Doctor.Name</td>
+                                <td class="text text-info">@item.Detail</td>
+                                <td>@{
+                                        if (item.Status == true)
+                                        {
+                                            <h2> <span class="badge badge-success">Approved</span></h2>
+                                        }
+                                        else
+                                        {
+                                            <h2> <span class="badge badge-warning">Pending</span></h2>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.dataTable').DataTable({
+            "scrollY": true,
+            "scrollCollapse": true,
+            "paging": false,
+            "filter": false,
+            "info": false,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>

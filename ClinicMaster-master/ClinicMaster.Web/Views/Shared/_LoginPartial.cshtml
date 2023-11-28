@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+<nav class="nav navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+            <ul class=" navbar-right">
+                <li class="nav-item dropdown open">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="~/assets/production/images/user.png" alt="">@User.Identity.Name
+                    </a>
+                    <div class="dropdown-menu dropdown-usermenu pull-right">
+                        <a class="dropdown-item" asp-controller="Manage" asp-action="ChangePassword"><i class="fa fa-key pull-right"></i> Change Password</a>
+                        <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    }
+    else
+    {
+<ul class="navbar-right navbar-top-links" >
+    <li><a asp-controller="Account" asp-action="Register">&nbspRegister&nbsp</a></li>
+    
+    <li><a asp-controller="Account" asp-action="Login">&nbspLog in&nbsp</a></li>
+</ul>
+    }
+</nav>

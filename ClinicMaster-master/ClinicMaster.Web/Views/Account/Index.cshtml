@@ -1,0 +1,64 @@
+﻿@model IEnumerable<UserViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+    <partial name="_DataTableStylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h1>Manage Users </h1>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="users" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>IsActive</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><h6 class="text text-info">@item.Email</h6></td>
+                            <td><h6 class="text text-info">@item.Role</h6></td>
+                            <td>
+                                @if (item.IsActive == true)
+                                {
+                                    <h2> <span class="badge badge-success">Active</span></h2>
+                                }
+                                else
+                                {
+                                    <h2> <span class="badge badge-danger">Locked</span></h2>
+                                }
+                            </td>
+                            <td>
+                                <a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm"><i class="fa fa-pencil-square"></i> Update</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <partial name="_DataTableScript" />
+    <script>
+        $(document).ready(function () {
+            var table = $("#users").DataTable({
+                "scrollY": true
+            });
+        });</script>
+}
+

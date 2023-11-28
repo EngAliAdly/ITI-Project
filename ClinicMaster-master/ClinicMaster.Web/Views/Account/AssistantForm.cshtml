@@ -1,0 +1,106 @@
+﻿@model AssistantFormViewModel
+@{
+    ViewData["Title"] = "AssistantForm";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Add Assistant</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form asp-controller="Account" asp-action="RegisterAssistant" method="post" class="form-horizontal form-label-left">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="field item form-group">
+                        <label asp-for="Name" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label asp-for="Phone" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Phone" id="phoneInput" class="form-control" maxlength="11" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label asp-for="Address" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label asp-for="RegisterEmpViewModel.Email" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="RegisterEmpViewModel.Email" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label asp-for="RegisterEmpViewModel.Password" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="RegisterEmpViewModel.Password" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label asp-for="RegisterEmpViewModel.ConfirmPassword" class="col-form-label col-md-3 col-sm-3  label-align"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="RegisterEmpViewModel.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="RegisterEmpViewModel.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="ln_solid">
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-6 offset-md-3">
+                                <a asp-controller="Assistants" asp-action="Index" class="btn btn-light">Back</a>
+                                <button type='submit' class="btn btn-info">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Get the input element by its ID
+        var phoneInput = document.getElementById("phoneInput");
+
+        // Add an input event listener to the input element
+        phoneInput.addEventListener("input", function (event) {
+            // Get the input value
+            var inputValue = event.target.value;
+
+            // Remove any non-digit characters using a regular expression
+            var numericValue = inputValue.replace(/\D/g, "");
+
+            // Limit the input to 11 characters
+            if (numericValue.length > 11) {
+                numericValue = numericValue.substring(0, 11);
+            }
+
+            // Update the input value with the sanitized value
+            event.target.value = numericValue;
+        });
+    </script>
+}
+

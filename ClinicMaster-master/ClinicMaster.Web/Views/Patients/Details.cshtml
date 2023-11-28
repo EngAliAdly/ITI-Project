@@ -1,0 +1,201 @@
+﻿@model PatientDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles{
+    <partial name="_DataTableStylesheet" />
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Profile</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    @if (User.IsInRole(RoleName.AssistantRoleName) || User.IsInRole(RoleName.AdministratorRoleName))
+                    {
+                        <li>
+                            <a asp-controller="Patients" asp-action="Edit" asp-route-id="@Model.Patient.Id" class="btn-link"><i class="fa fa-edit m-right-xs"></i>Edit</a>
+                        </li>
+                    }
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" src="~/assets/production/images/user.png" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>@Model.Patient.Name</h3>
+                    <ul class="list-unstyled user_data">
+                        <li><i class="fa fa-user"><strong>Token:</strong> @Model.Patient.Token</i></li>
+                        <li><i class="fa fa-user"><strong>Sex:</strong> @Model.Patient.Sex</i></li>
+                        <li> <i class="fa fa-user"><strong>Age:</strong> @Model.Patient.Age</i></li>
+                        <li><i class="fa fa-inbox"><strong>BirthDate:</strong></i>@Model.Patient.BirthDate.ToShortDateString()</li>
+                        <li> <i class="fa fa-user"><strong>Height:</strong> @Model.Patient.Height</i></li>
+                        <li> <i class="fa fa-user"><strong>Weight:</strong> @Model.Patient.Weight</i></li>
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i><strong>Address:</strong> @Model.Patient.Address
+                        </li>
+                        <li><i class="fa fa-phone"><strong>Phone:</strong></i> @Model.Patient.Phone</li>
+
+
+                    </ul>
+                    <br />
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <span class="section"> Appointment</span>
+                        <button type="button" class="btn btn-close-white" data-toggle="modal" data-target="#staticBackdrop">
+                            Patient Appointment
+                            <span class="badge bg-danger text-white">@Model.CountAppointments</span>
+                        </button>
+                        @if (User.IsInRole(RoleName.AdministratorRoleName) || User.IsInRole(RoleName.AssistantRoleName))
+                        {
+                            <a asp-action="Create" asp-controller="Appointments" asp-route-id="@Model.Patient.Id">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        }
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Appointments</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-striped no-margin dataTables1">
+                                            <thead>
+                                                <tr>
+                                                    <th>Doctor</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Details</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Appointments)
+                                                {
+                                                    <tr>
+                                                        <td class="text text-info">@item.Doctor.Name</td>
+                                                        <td class="text text-info">@item.StartDateTime.ToString("MMM"),@item.StartDateTime.ToString("d ")-@item.StartDateTime.ToString("yyyy")</td>
+                                                        <td class="text text-info">@item.StartDateTime.ToString("HH:mm")</td>
+                                                        <td class="text text-info">@item.Detail</td>
+                                                        <td>
+                                                            @{
+                                                                if (item.Status == true)
+                                                                {
+                                                                    <h2> <span class="badge badge-success">Approved</span></h2>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <h2> <span class="badge badge-warning">Pending</span></h2>
+                                                                }
+                                                            }
+                                                        </td>
+
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <span class="section">Attendance </span>
+                        <button type="button" class="btn btn-close-white" data-toggle="modal" data-target="#staticBackdrop1">
+                            Lab Attendance
+                            <span class="badge bg-danger text-white">@Model.CountAttendance</span>
+                        </button>
+                        @if (User.IsInRole(RoleName.DoctorRoleName))
+                        {
+                            <a asp-action="Create" asp-controller="Attendances" asp-route-id="@Model.Patient.Id">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        }
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop1" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Attandences</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="data table table-striped no-margin dataTables2">
+                                            <thead>
+                                                <tr>
+                                                    <th>Clinic Remarks</th>
+                                                    <th>Diagnosis</th>
+                                                    <th>Therapy</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Attendances)
+                                                {
+                                                    <tr>
+                                                        <td class="text text-info">@item.ClinicRemarks</td>
+                                                        <td class="text text-info">@item.Diagnosis</td>
+                                                        <td class="text text-info">@item.Therapy</td>
+                                                        <td class="text text-info">@item.Date.ToString("MMM"), @item.Date.ToString("d ")-@item.Date.ToString("yyyy")</td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <partial name="_DataTableScript" />
+    <script>
+        $(document).ready(function () {
+            $('.dataTables1').DataTable({
+                "scrollCollapse": true,
+                "paging": false,
+                "filter": false,
+                "info": false
+            });
+
+            $('.dataTables2').DataTable({
+                "scrollCollapse": true,
+                "paging": false,
+                "filter": false,
+                "info": false
+            });
+        });
+
+
+    </script>
+}
